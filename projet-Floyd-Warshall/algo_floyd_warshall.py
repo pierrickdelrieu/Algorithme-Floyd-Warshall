@@ -38,6 +38,7 @@ def floyd_warshall(Graph):
 
     return array_distance,array_path
 def display_smallest_path(array_path,begin,final):
+
     smallest_path = str(begin)
     # Si l'on a encore des intermédiaires (prédecesseur)
     if(array_path[begin][final] != begin):
@@ -47,6 +48,7 @@ def display_smallest_path(array_path,begin,final):
     return smallest_path + " -> " + str(final)
 
 def display_solution(array_path):
+    print(array_path)
     for i in range(len(array_path)):
         for v in range(len(array_path)):
             if(array_path[i][v] != -1):
