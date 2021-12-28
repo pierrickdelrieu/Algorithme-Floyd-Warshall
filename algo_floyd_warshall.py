@@ -69,6 +69,24 @@ def display_array_graph(array_transitions):
         print("                     --------------------------------------------------")
 
 
+def create_array_display_graph(array_graph_transitions):
+    array_display_graph = []
+    array_display_graph.append(str("--------------------------------------------------"))
+    array_display_graph.append(str("|  sommet initial | sommet final |     poids     |"))
+    array_display_graph.append(str("--------------------------------------------------"))
+    for vertices in range(len(array_graph_transitions)):
+        message_display_graph = ""
+        message_display_graph += str("|        ")
+        message_display_graph += str(array_graph_transitions[vertices][0])
+        message_display_graph += str("        |      ")
+        message_display_graph += str(array_graph_transitions[vertices][1])
+        message_display_graph += str("       |        ")
+        message_display_graph += str(array_graph_transitions[vertices][2])
+        message_display_graph += str("      |")
+        array_display_graph.append(message_display_graph)
+        array_display_graph.append("--------------------------------------------------")
+    return array_display_graph
+
 """Fonction permettant de retourner un tableau contenant l'affichage d'un tableau à l'aide du tableau des distances
 créé avec l'algorithme de Floyd Warshall"""
 def create_array_display_graph_Floyd(array_distance):
@@ -121,6 +139,7 @@ def display_solution(array_path,array_distance):
                 message_shortest_path+=" : ("
                 message_shortest_path+=display_smallest_path(array_path,i,v)
                 message_shortest_path+=")"
+                print(message_shortest_path)
                 array_shortest_path.append(message_shortest_path)
     array_display_graph = create_array_display_graph_Floyd(array_distance)
     return array_shortest_path,array_display_graph

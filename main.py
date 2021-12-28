@@ -41,8 +41,9 @@ while(keep_going):
                 array_distance, array_path = floyd_warshall(Graph)
                 tuple_result = display_solution(array_path, array_distance)
                 array_shortest_path = tuple_result[0]
-                array_display_graph = tuple_result[1]
-                write_graph_Floyd_Warshall(file_name,array_shortest_path,array_display_graph,Graph)
+                array_display_graph = create_array_display_graph(Graph.array_transitions)
+                write_graph_Floyd_Warshall(file_name, array_shortest_path, array_display_graph, Graph)
+
             except:
                 print("fichier introuvable !")
     elif(input_user=='3'):

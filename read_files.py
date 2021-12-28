@@ -140,7 +140,6 @@ def write_graph():
                 keep_going = False
 
 def write_graph_Floyd_Warshall(file_name,shortest_path,array_display_graph,Graph_information):
-
     Graph_information.number_vertices = " ".join(str (elem) for elem in Graph_information.number_vertices)
     Graph_information.number_arcs = " ".join(str(elem) for elem in Graph_information.number_arcs)
 
@@ -169,4 +168,5 @@ def write_graph_Floyd_Warshall(file_name,shortest_path,array_display_graph,Graph
         file.write(shortest_path[i])
         file.write("\n")
     print("Le résultat des l'algorithme de Floyd Warshall a été écrit dans le fichier ",file_name,"_result.txt !")
+    print("Vous pouvez retrouver ce fichier dans le dossier graph_files_shortest_path.")
     file.close()
