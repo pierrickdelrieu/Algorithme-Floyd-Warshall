@@ -8,7 +8,7 @@ def read_graph(file_name):
         RepresentationGraph = Graph(0, 0, [])
         array_number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
         array_graph = []
-        file = open("graph_files/G1-Graphe" + file_name + ".txt", "r")
+        file = open("../graph_files/G1-Graphe" + file_name + ".txt", "r")
 
         """Nous allons lire le fichier ligne par ligne. Lorsque l'on rencontre
         un caractère retour à la ligne nous le supprimons. 
