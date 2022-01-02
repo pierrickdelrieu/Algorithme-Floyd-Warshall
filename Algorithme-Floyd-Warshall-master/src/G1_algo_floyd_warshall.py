@@ -1,4 +1,4 @@
-from read_files import *
+from G1_read_files import *
 
 
 def floyd_warshall(Graph):
@@ -58,7 +58,7 @@ def floyd_warshall(Graph):
                 if array_distance[begin][begin] < 0:
                     interm_result.clear()
                     interm_result.append("Cycle de poids négatif")
-                    return None, None, None,interm_result
+                    return array_distance, array_path, interm_result,None
             interm_result.append(str(intermediary) + " | distance : " + str(array_distance) + '\n' + str(intermediary) + " | predecesseur : " + str(array_path) + "\n")
 
         # print(array_distance)
@@ -195,7 +195,7 @@ def absorbent_circuit_detection(array_transitions):
             index_weight = dictionnary_successor[1]["successor"].index(1)
             poids+= dictionnary_successor[1]["weight"][index_weight]
             if(poids < 0):
-                print("Detection d'un circuit absorbant :")
+                print("Detection d'un circuit absorbant !")
                 return True
         except:
             return False

@@ -1,6 +1,6 @@
-from read_files import *
-from algo_floyd_warshall import *
-from algo_bellman import *
+from G1_read_files import *
+from G1_algo_floyd_warshall import *
+from G1_algo_bellman import *
 import os
 
 """
@@ -27,7 +27,8 @@ while keep_going:
     Graph = read_graph(file_name)
 
     if file_name == '0':
-        write_graph()
+        print("A venir prochainement !")
+        #write_graph()
     elif file_name == '-1':
         keep_going = False
     else:

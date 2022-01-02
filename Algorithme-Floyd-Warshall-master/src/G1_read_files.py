@@ -1,9 +1,9 @@
-from class_graph import *
+from G1_class_graph import *
 import re
 
 # Fonction nous permettant de lire un graphe sous forme de fichier texte
-from src.algo_bellman import *
-from src.algo_floyd_warshall import *
+from src.G1_algo_bellman import *
+from src.G1_algo_floyd_warshall import *
 
 
 def read_graph(file_name):
@@ -196,6 +196,7 @@ def write_graph_trace(Graph, file_name):
     file.write("------------------------------ FLOYD WARSHALL ------------------------------\n")
 
     array_distance, array_path, interm_result,absorbent = floyd_warshall(Graph)
+
     file.write("********** Etapes intermediaires **********\n")
     for line in interm_result:
         file.write(line + '\n')

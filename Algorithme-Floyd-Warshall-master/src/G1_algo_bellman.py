@@ -1,5 +1,5 @@
-from read_files import *
-from class_graph import *
+from G1_read_files import *
+from G1_class_graph import *
 
 
 def get_init_sommet(array_trans):
