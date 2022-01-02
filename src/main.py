@@ -37,6 +37,7 @@ while keep_going:
         else:
             clear()
             print("Vous avez choisit le graphe", file_name)
+            display_array_graph(Graph.array_transitions)
             print(
                 "                                     -------------------------------------------------------------------")
             print(
@@ -46,8 +47,6 @@ while keep_going:
             print(
                 "                                     |       Tapez 3 pour choisir l'algorithme de Bellman              |")
             print(
-                "                                     |       Tapez 4 pour simplement afficher le graphe                |")
-            print(
                 "                                     |       Tapez autre chose pour quitter                            |")
             print(
                 "                                     -------------------------------------------------------------------")
@@ -56,7 +55,6 @@ while keep_going:
             # FLOYD WARSHALL
             if input_user == '1':
                 Graph = read_graph(file_name)
-                display_array_graph(Graph.array_transitions)
                 array_distance, array_path = floyd_warshall(Graph)
                 tuple_result = display_solution(array_path, array_distance)
                 # array_shortest_path = tuple_result[0]
@@ -69,16 +67,11 @@ while keep_going:
 
             # BELLMAN
             elif input_user == '3':
-                display_array_graph(Graph.array_transitions)
                 distances, predecesseurs = bellman(Graph, get_init_sommet(Graph.array_transitions))
                 if distances is None:
                     print("Il y a un circuit absorbant")
                 else:
                     display_solution_bellman(distances, Graph)
-
-            # AFFICHAGE DU GRAPHE
-            elif input_user == '4':
-                display_array_graph(Graph.array_transitions)
 
             else:
                 keep_going = False
