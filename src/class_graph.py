@@ -6,10 +6,14 @@ class Graph:
 
 
 def get_suiv(array_trans, vertice):
+    """
+    Recuperation des sommets suivants avec le poids de l'arrete sous forme de dictionnaire
+    exemple : {<sommet_suivant>: <poids de l'arrete>
+    """
+
     pred = {}
-    for trans in array_trans:
+    for trans in array_trans:  # Parcours du tableau des transitions pour recuperer les suivants
         if trans[0] == vertice:
             pred[trans[1]] = trans[2]
 
     return pred
-
