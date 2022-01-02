@@ -11,7 +11,6 @@ def get_init_sommet(array_trans):
 
 
 def bellman(Graph, init_sommet):
-    global prec
     distances = {}
     predecesseurs = {}
 
@@ -55,6 +54,7 @@ def bellman(Graph, init_sommet):
         print(k-1, distances)
 
     # Detection de circuit absorbant
+    prec = temp
     for i in prec:
         suiv = get_suiv(Graph.array_transitions, i)
         for j in suiv:
