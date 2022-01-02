@@ -2,11 +2,12 @@ from read_files import *
 
 
 def floyd_warshall(Graph):
+    interm_result = []
     # tableau qui contiendra les distances les plus courtes
     array_distance = []
     # tableau qui contiendra les chemins les plus court
     array_path = []
-    print(Graph.array_transitions)
+    # print(Graph.array_transitions)
 
 
     """Construction de la table initial des distances remplie de "inf" et de dimension nb de sommets * nb de sommets
@@ -19,8 +20,8 @@ def floyd_warshall(Graph):
             subtable_path.append(-1)
         array_distance.append(subtable_initialization)
         array_path.append(subtable_path)
-    print(array_path)
-    print(array_distance)
+    # print(array_path)
+    # print(array_distance)
 
     """Remplissage de la matrice d'initialisation des distances avec les valeurs réelles et de la matrice des chemins 
     avec les valeurs réelles"""
@@ -31,10 +32,12 @@ def floyd_warshall(Graph):
     for i in range(len(array_distance)):
         array_distance[i][i] = 0
         array_path[i][i] = -1
-    print('\n')
-    print(array_path)
-    print(array_distance)
-    print('\n')
+    # print('\n')
+    # print(array_path)
+    # print(array_distance)
+    # print('\n')
+    interm_result.append("0 | distance : " + str(array_distance) + '\n' + "0 | predecesseur : " + str(array_path) + "\n")
+
 
     """Ces boucles imbriquées vont nous permettre de tester les N^3 possibilités de chemins, avec 
     N la dimension du graphe."""
@@ -46,13 +49,17 @@ def floyd_warshall(Graph):
                     array_distance[begin][final] = array_distance[intermediary][final] + array_distance[begin][
                         intermediary]
                     array_path[begin][final] = array_path[intermediary][final]
-            if array_distance[begin][begin] < 0:
-                print("Cycle de poids négatif")
-                return
-    print(array_distance)
-    print(array_path)
 
-    return array_distance, array_path
+            if array_distance[begin][begin] < 0:
+                interm_result.clear()
+                interm_result.append("Cycle de poids négatif")
+                return None, None, None
+        interm_result.append(str(intermediary) + " | distance : " + str(array_distance) + '\n' + str(intermediary) + " | predecesseur : " + str(array_path) + "\n")
+
+    # print(array_distance)
+    # print(array_path)
+
+    return array_distance, array_path, interm_result
 
 
 def display_smallest_path(array_path, begin, final):
@@ -151,7 +158,11 @@ def display_graph(array_display_graph):
         print("                             ", array_display_graph[i])
 
 
-def display_solution(array_path, array_distance):
+def get_solution_floyd_warshall(array_path, array_diatance):
+    """
+    Affichage des solution de l'algorithme de Floyd Warshall
+    Affichage de l'ensemble des plus court chemin pour de chaque sommet a chaque sommet
+    """
     array_shortest_path = []
     for i in range(len(array_path)):
         for v in range(len(array_path)):
@@ -159,10 +170,8 @@ def display_solution(array_path, array_distance):
                 message_shortest_path = "Plus court chemin de "
                 message_shortest_path += str(i)
                 message_shortest_path += " à "
-                message_shortest_path += str(v)
-                message_shortest_path += " : ("
+                message_shortest_path += str(v) + " : "
                 message_shortest_path += display_smallest_path(array_path, i, v)
-                message_shortest_path += ")"
-                print(message_shortest_path)
+                message_shortest_path += " (poids = " + str(array_diatance[v]) + ")"
                 array_shortest_path.append(message_shortest_path)
     return array_shortest_path

@@ -38,6 +38,19 @@ while keep_going:
             clear()
             print("Vous avez choisit le graphe", file_name, "\n\n")
             display_array_graph(Graph.array_transitions)
+
+            print("\n         ********** Matrice d'adjacence **********")
+            matrice_adjacence = get_matrice_adjacence(Graph)
+            for line in matrice_adjacence:
+                print('         ', end="")
+                cpt = 0
+                for element in line:
+                    print(element, end="        |      ")
+                    cpt = cpt + 1
+                print("\n         ----------" + (cpt-1) * "----------------")
+
+            print('\n\n')
+
             print(
                 "                                     -------------------------------------------------------------------")
             print(
@@ -47,6 +60,8 @@ while keep_going:
             print(
                 "                                     |       Tapez 3 pour choisir l'algorithme de Bellman              |")
             print(
+                "                                     |       Tapez 4 pour ecrire la trace du graphe                    |")
+            print(
                 "                                     |       Tapez autre chose pour quitter                            |")
             print(
                 "                                     -------------------------------------------------------------------")
@@ -54,12 +69,24 @@ while keep_going:
 
             # FLOYD WARSHALL
             if input_user == '1':
-                Graph = read_graph(file_name)
-                array_distance, array_path = floyd_warshall(Graph)
-                tuple_result = display_solution(array_path, array_distance)
-                # array_shortest_path = tuple_result[0]
-                # array_display_graph = create_array_display_graph(Graph.array_transitions)
-                # write_graph_Floyd_Warshall(file_name, array_shortest_path, array_display_graph, Graph)
+                print("--------------------------------------------------")
+                print("|        Affichage des plus courts chemins       |")
+                print("|                  Floyd Warshall                |")
+                print("--------------------------------------------------\n")
+
+                array_distance, array_path, interm_result = floyd_warshall(Graph)
+                print("********** Etapes intermediaires **********\n")
+                for line in interm_result:
+                    print(line + '\n')
+
+                print("********** Solution **********\n")
+                solutions = get_solution_floyd_warshall(array_path, array_distance)
+                for line in solutions:
+                    print(line)
+                print('\n\n')
+
+
+                #array_display_graph = create_array_display_graph(Graph.array_transitions)
 
             # DIKSTRA
             elif input_user == '2':
@@ -67,11 +94,29 @@ while keep_going:
 
             # BELLMAN
             elif input_user == '3':
-                distances, predecesseurs = bellman(Graph, get_init_sommet(Graph.array_transitions))
+                print("--------------------------------------------------")
+                print("|        Affichage des plus courts chemins       |")
+                print("|                     Bellman                    |")
+                print("--------------------------------------------------\n")
+
+                distances, predecesseurs, interm_result = bellman(Graph, get_init_sommet(Graph.array_transitions))
+                print("********** Etapes intermediaires **********\n")
+                for line in interm_result:
+                    print(line + '\n')
+
+                print("********** Solution **********\n")
                 if distances is None:
                     print("Il y a un circuit absorbant")
                 else:
-                    display_solution_bellman(distances, predecesseurs, get_init_sommet(Graph.array_transitions))
+                    solutions = get_solution_bellman(distances, predecesseurs, get_init_sommet(Graph.array_transitions))
+                    for line in solutions:
+                        print(line)
+
+                    print('\n\n')
+
+            # TRACE
+            elif input_user == '4':
+                write_graph_trace(Graph, file_name)
 
             else:
                 keep_going = False

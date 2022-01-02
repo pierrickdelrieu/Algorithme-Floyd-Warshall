@@ -20,9 +20,7 @@ def bellman(Graph, init_sommet):
     """
     Algorithme de calcul des plus courts chemin a partir du sommet init_sommet
     """
-    print("--------------------------------------------------")
-    print("|              ALGORITHME DE BELLMAN             |")
-    print("--------------------------------------------------")
+    interm_result = []
     distances = {}  # tableau des distances
     predecesseurs = {}  # tableau des predecesseurs associes a chaque distances
 
@@ -32,8 +30,7 @@ def bellman(Graph, init_sommet):
         predecesseurs[vertice] = vertice  # Initialisation de aucun predecesseur
     distances[init_sommet] = 0  # la distance du sommet initial vers lui meme est 0
 
-    print("0 |", "distance :", distances)  # affichage des etapes intermediares (iteration, distance)
-    print("0 |", "predecesseur :", predecesseurs, "\n")  # affichage des etapes intermediares (iteration, predecesseur)
+    interm_result.append("0 | distance : " + str(distances) + '\n' + "0 | predecesseur : " + str(predecesseurs) + "\n")
 
     # Algorithme sous forme de pseudo code
     # for i in range(1, Graph.number_vertices):
@@ -70,8 +67,7 @@ def bellman(Graph, init_sommet):
 
         distances = distances_prec.copy()
 
-        print(k - 1, "|", "distance :", distances)  # affichage des etapes intermediares (iteration, distance)
-        print(k - 1, "|", "predecesseur :", predecesseurs, "\n")  # affichage des etapes intermediares (iteration, predecesseur)
+        interm_result.append(str(k-1) + " | distance : " + str(distances) + '\n' + str(k-1) + " | predecesseur : " + str(predecesseurs) + "\n")
 
     # Detection de circuit absorbant
     prec = temp
@@ -81,7 +77,7 @@ def bellman(Graph, init_sommet):
             if (distances[i] + suiv[j]) <= distances_prec[j]:
                 return None, None
 
-    return distances, predecesseurs
+    return distances, predecesseurs, interm_result
 
 
 def display_smallest_path_bellman(predecesseurs, init_sommet, vertice):
@@ -95,15 +91,12 @@ def display_smallest_path_bellman(predecesseurs, init_sommet, vertice):
     return smallest_path + " -> " + str(vertice)
 
 
-def display_solution_bellman(distances, predecesseurs, init_sommet):
+def get_solution_bellman(distances, predecesseurs, init_sommet):
     """
     Affichage des solution de l'algorithme de bellman
     Affichage de l'ensemble des plus court chemin pour chaque sommet par rapport au sommet initial
     """
-
-    print("--------------------------------------------------")
-    print("|        Affichage des plus courts chemins       |")
-    print("--------------------------------------------------")
+    array_shortest_path = []
     for v in distances:
         message_shortest_path = "Plus court chemin de "
         message_shortest_path += str(init_sommet)
@@ -111,4 +104,6 @@ def display_solution_bellman(distances, predecesseurs, init_sommet):
         message_shortest_path += str(v) + " : "
         message_shortest_path += display_smallest_path_bellman(predecesseurs, init_sommet, v)
         message_shortest_path += " (poids = " + str(distances[v]) + ")"
-        print(message_shortest_path)
+        array_shortest_path.append(message_shortest_path)
+
+    return array_shortest_path

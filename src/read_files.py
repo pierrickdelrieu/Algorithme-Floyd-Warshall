@@ -1,8 +1,11 @@
 from class_graph import *
 import re
 
-
 # Fonction nous permettant de lire un graphe sous forme de fichier texte
+from src.algo_bellman import *
+from src.algo_floyd_warshall import *
+
+
 def read_graph(file_name):
     try:
         RepresentationGraph = Graph(0, 0, [])
@@ -154,34 +157,69 @@ def write_graph():
                 keep_going = False
 
 
-def write_graph_Floyd_Warshall(file_name, shortest_path, array_display_graph, Graph_information):
-    Graph_information.number_vertices = " ".join(str(elem) for elem in Graph_information.number_vertices)
-    Graph_information.number_arcs = " ".join(str(elem) for elem in Graph_information.number_arcs)
+def write_graph_trace(Graph, file_name):
+    # Graph.number_vertices = " ".join(str(elem) for elem in Graph.number_vertices)
+    # Graph.number_arcs = " ".join(str(elem) for elem in Graph.number_arcs)
 
-    file = open("graph_files_shortest_path/" + file_name + "_result.txt", "w+", encoding="UTF-8")
+    file = open("../traces/G1_Graphe" + file_name + "_result.txt", "w+", encoding="UTF-8")
+
     file.write("\n                                       -----------------------------------------------\n")
-    file.write("                                       |   Affichage des caractéristiques du graphe  |\n")
+    file.write("                                       |           Caractéristiques du graphe        |\n")
     file.write("                                       -----------------------------------------------\n\n")
-    file.write("        Ce graphe contient ")
-    file.write(str(Graph_information.number_vertices))
-    file.write(" sommets\n        Il contient également ")
-    file.write(str(Graph_information.number_arcs))
-    file.write(" arcs.")
-    file.write("\n\n")
-    file.write("\n                                       -----------------------------------------------")
-    file.write("\n                                       |       Procédure d'affichage du graphique    |\n")
-    file.write("                                       -----------------------------------------------\n\n")
+    file.write("        Ce graphe contient " + str(Graph.number_vertices) + " sommets " + "et  " + str(
+        Graph.number_arcs) + " arcs.\n\n")
+
+    file.write("                                       -----------------------------------------------\n")
+    file.write("                                       |             Affichage du graphe             |\n")
+    file.write("                                       -----------------------------------------------\n")
+    array_display_graph = create_array_display_graph(Graph.array_transitions)
     for i in range(len(array_display_graph)):
-        file.write("                                      ")
+        file.write("\n                                      ")
         file.write(array_display_graph[i])
-        file.write("\n")
+
+    file.write("\n\n         ********** Matrice d'adjacence **********\n")
+    matrice_adjacence = get_matrice_adjacence(Graph)
+    for line in matrice_adjacence:
+        file.write('         ')
+        cpt = 0
+        for element in line:
+            file.write(str(element) + "        |      ")
+            cpt = cpt + 1
+        file.write("\n         ----------" + (cpt - 1) * "----------------" + '\n')
+
+    file.write('\n\n')
+
     file.write("\n\n                                     --------------------------------------------------\n")
     file.write("                                     |   Affichage des plus court chemins du graphe   |\n")
     file.write("                                     --------------------------------------------------\n\n")
-    for i in range(len(shortest_path)):
-        file.write("                                        ")
-        file.write(shortest_path[i])
-        file.write("\n")
-    print("Le résultat des l'algorithme de Floyd Warshall a été écrit dans le fichier ", file_name, "_result.txt !")
-    print("Vous pouvez retrouver ce fichier dans le dossier graph_files_shortest_path.")
+
+    file.write("------------------------------ FLOYD WARSHALL ------------------------------\n")
+
+    array_distance, array_path, interm_result = floyd_warshall(Graph)
+    file.write("********** Etapes intermediaires **********\n")
+    for line in interm_result:
+        file.write(line + '\n')
+
+    file.write("********** Solution **********\n")
+    solutions = get_solution_floyd_warshall(array_path, array_distance)
+    for line in solutions:
+        file.write(line + '\n')
+
+    # BELLMAN
+    file.write("\n\n------------------------------ BELLMAN ------------------------------\n")
+    distances, predecesseurs, interm_result = bellman(Graph, get_init_sommet(Graph.array_transitions))
+    file.write("********** Etapes intermediaires **********\n")
+    for line in interm_result:
+        file.write(line + '\n')
+
+
+    file.write("********** Solution **********\n")
+    if distances is None:
+        file.write("Il y a un circuit absorbant")
+    else:
+        solutions = get_solution_bellman(distances, predecesseurs, get_init_sommet(Graph.array_transitions))
+        for line in solutions:
+            file.write(line + '\n')
+
+    print("\nLa trace du graphe " + file_name + " a ete ecrite dans le fichier /traces/G1_Graphe" + file_name + "_result.txt.\n")
     file.close()
