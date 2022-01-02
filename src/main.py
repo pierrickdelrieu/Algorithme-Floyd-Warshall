@@ -36,7 +36,7 @@ while keep_going:
 
         else:
             clear()
-            print("Vous avez choisit le graphe", file_name)
+            print("Vous avez choisit le graphe", file_name, "\n\n")
             display_array_graph(Graph.array_transitions)
             print(
                 "                                     -------------------------------------------------------------------")
@@ -63,7 +63,7 @@ while keep_going:
 
             # DIKSTRA
             elif input_user == '2':
-                print("Vous allez utiliser l'algorithme de Dikstra")
+                print("Vous allez utiliser l'algorithme de Dikstra \n\n")
 
             # BELLMAN
             elif input_user == '3':
@@ -71,7 +71,7 @@ while keep_going:
                 if distances is None:
                     print("Il y a un circuit absorbant")
                 else:
-                    display_solution_bellman(distances, Graph)
+                    display_solution_bellman(distances, predecesseurs, get_init_sommet(Graph.array_transitions))
 
             else:
                 keep_going = False
