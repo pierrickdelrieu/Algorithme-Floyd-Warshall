@@ -201,9 +201,12 @@ def write_graph_trace(Graph, file_name):
         file.write(line + '\n')
 
     file.write("********** Solution **********\n")
-    solutions = get_solution_floyd_warshall(array_path, array_distance)
-    for line in solutions:
-        file.write(line + '\n')
+    if array_distance is None:
+        file.write("Il y a un circuit absorbant")
+    else:
+        solutions = get_solution_floyd_warshall(array_path, array_distance)
+        for line in solutions:
+            file.write(line + '\n')
 
     # BELLMAN
     file.write("\n\n------------------------------ BELLMAN ------------------------------\n")

@@ -53,7 +53,7 @@ def floyd_warshall(Graph):
             if array_distance[begin][begin] < 0:
                 interm_result.clear()
                 interm_result.append("Cycle de poids négatif")
-                return None, None, None
+                return None, None, interm_result
         interm_result.append(str(intermediary) + " | distance : " + str(array_distance) + '\n' + str(intermediary) + " | predecesseur : " + str(array_path) + "\n")
 
     # print(array_distance)

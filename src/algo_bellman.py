@@ -75,7 +75,7 @@ def bellman(Graph, init_sommet):
         suiv = get_suiv(Graph.array_transitions, i)
         for j in suiv:
             if (distances[i] + suiv[j]) <= distances_prec[j]:
-                return None, None
+                return None, None, interm_result
 
     return distances, predecesseurs, interm_result
 
