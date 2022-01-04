@@ -1,12 +1,12 @@
-from read_files import *
-from algo_floyd_warshall import *
-from algo_bellman import *
+from G1_read_files import *
+from G1_algo_floyd_warshall import *
+from G1_algo_bellman import *
+from G1_class_graph import *
 import os
 
 
 def clear():
     os.system('clear')
-
 
 clear()
 print(
@@ -80,13 +80,13 @@ while keep_going:
                     print(line + '\n')
 
                 print("********** Solution **********\n")
-                solutions = get_solution_floyd_warshall(array_path, array_distance)
-                for line in solutions:
-                    print(line)
-                print('\n\n')
-
-
-                #array_display_graph = create_array_display_graph(Graph.array_transitions)
+                if array_distance is None:
+                    print("Il y a un circuit absorbant\n\n")
+                else:
+                    solutions = get_solution_floyd_warshall(array_path, array_distance)
+                    for line in solutions:
+                        print(line)
+                    print('\n\n')
 
             # DIKSTRA
             elif input_user == '2':
@@ -102,9 +102,9 @@ while keep_going:
                 distances, predecesseurs, interm_result = bellman(Graph, get_init_sommet(Graph.array_transitions))
                 print("********** Etapes intermediaires **********\n")
                 for line in interm_result:
-                    print(line + '\n')
+                    print(line)
 
-                print("********** Solution **********\n")
+                print("\n\n********** Solution **********\n")
                 if distances is None:
                     print("Il y a un circuit absorbant")
                 else:
@@ -116,6 +116,11 @@ while keep_going:
 
             # TRACE
             elif input_user == '4':
+                # # Ecriture des traces pour tous les graphes
+                # for i in range(1, 14):
+                #     Graph = read_graph(str(i))
+                #     write_graph_trace(Graph, str(i))
+
                 write_graph_trace(Graph, file_name)
 
             else:

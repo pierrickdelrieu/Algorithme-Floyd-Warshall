@@ -11,12 +11,26 @@ def get_suiv(array_trans, vertice):
     exemple : {<sommet_suivant>: <poids de l'arrete>
     """
 
-    pred = {}
+    suiv = {}
     for trans in array_trans:  # Parcours du tableau des transitions pour recuperer les suivants
         if trans[0] == vertice:
-            pred[trans[1]] = trans[2]
+            suiv[trans[1]] = trans[2]
 
-    return pred
+    return suiv
+
+
+def get_prec(array_trans, vertice):
+    """
+    Recuperation des sommets suivants avec le poids de l'arrete sous forme de dictionnaire
+    exemple : {<sommet_suivant>: <poids de l'arrete>
+    """
+
+    prec = {}
+    for trans in array_trans:  # Parcours du tableau des transitions pour recuperer les suivants
+        if trans[1] == vertice:
+            prec[trans[0]] = trans[2]
+
+    return prec
 
 
 def get_matrice_adjacence(graph):
@@ -41,4 +55,35 @@ def get_matrice_adjacence(graph):
         matrice_adj[graph.array_transitions[k][0] + 1][graph.array_transitions[k][1] + 1] = 1
 
     return matrice_adj
+
+
+def get_matrice_from_tab(prec, tab):
+    matrice = ""
+    for line in tab:
+        matrice += str(prec)
+        for element in line:
+            matrice += str(element) + (5 - len(str(element))) * " " + '|     '
+        matrice += '\n'
+
+    return matrice
+
+
+def get_matrice_from_bellman(prec, distance, predecesseurs):
+    matrice = ""
+    for element in distance:
+        matrice += str(distance[element]) + (5 - len(str(distance[element]))) * " "
+        if distance[element] != float('inf'):
+            matrice += '(' + str(predecesseurs[element]) + ')' + (5 - len(str(predecesseurs[element]))) * " " + '|     '
+        else:
+            matrice += '( )' + 4 * " " + '|     '
+
+    return matrice
+
+
+
+
+
+
+
+
 

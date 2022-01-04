@@ -1,5 +1,5 @@
-from read_files import *
-from class_graph import *
+from G1_read_files import *
+from G1_class_graph import *
 
 
 def get_init_sommet(array_trans):
@@ -30,7 +30,7 @@ def bellman(Graph, init_sommet):
         predecesseurs[vertice] = vertice  # Initialisation de aucun predecesseur
     distances[init_sommet] = 0  # la distance du sommet initial vers lui meme est 0
 
-    interm_result.append("0 | distance : " + str(distances) + '\n' + "0 | predecesseur : " + str(predecesseurs) + "\n")
+    interm_result.append("k =  0     |     " + get_matrice_from_bellman("          ", distances, predecesseurs))
 
     # Algorithme sous forme de pseudo code
     # for i in range(1, Graph.number_vertices):
@@ -67,14 +67,14 @@ def bellman(Graph, init_sommet):
 
         distances = distances_prec.copy()
 
-        interm_result.append(str(k-1) + " | distance : " + str(distances) + '\n' + str(k-1) + " | predecesseur : " + str(predecesseurs) + "\n")
+        interm_result.append("k =  " + str(k-1) + "     |     " + get_matrice_from_bellman("          ", distances, predecesseurs))
 
     # Detection de circuit absorbant
     prec = temp
     for i in prec:
         suiv = get_suiv(Graph.array_transitions, i)
         for j in suiv:
-            if (distances[i] + suiv[j]) <= distances_prec[j]:
+            if (distances[i] + suiv[j]) != distances_prec[j]:
                 return None, None, interm_result
 
     return distances, predecesseurs, interm_result
@@ -102,8 +102,11 @@ def get_solution_bellman(distances, predecesseurs, init_sommet):
         message_shortest_path += str(init_sommet)
         message_shortest_path += " à "
         message_shortest_path += str(v) + " : "
-        message_shortest_path += display_smallest_path_bellman(predecesseurs, init_sommet, v)
-        message_shortest_path += " (poids = " + str(distances[v]) + ")"
+        if distances[v] == float('inf'):
+            message_shortest_path += "Pas accessible"
+        else:
+            message_shortest_path += display_smallest_path_bellman(predecesseurs, init_sommet, v)
+            message_shortest_path += " (poids = " + str(distances[v]) + ")"
         array_shortest_path.append(message_shortest_path)
 
     return array_shortest_path

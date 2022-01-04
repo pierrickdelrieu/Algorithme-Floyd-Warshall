@@ -1,9 +1,9 @@
-from class_graph import *
+from G1_class_graph import *
 import re
 
 # Fonction nous permettant de lire un graphe sous forme de fichier texte
-from src.algo_bellman import *
-from src.algo_floyd_warshall import *
+from G1_src.G1_algo_bellman import *
+from G1_src.G1_algo_floyd_warshall import *
 
 
 def read_graph(file_name):
@@ -11,7 +11,7 @@ def read_graph(file_name):
         RepresentationGraph = Graph(0, 0, [])
         array_number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
         array_graph = []
-        file = open("../graph_files/G1-Graphe" + file_name + ".txt", "r")
+        file = open("../G1_graph_files/G1-Graphe" + file_name + ".txt", "r")
 
         """Nous allons lire le fichier ligne par ligne. Lorsque l'on rencontre
         un caractère retour à la ligne nous le supprimons. 
@@ -161,7 +161,7 @@ def write_graph_trace(Graph, file_name):
     # Graph.number_vertices = " ".join(str(elem) for elem in Graph.number_vertices)
     # Graph.number_arcs = " ".join(str(elem) for elem in Graph.number_arcs)
 
-    file = open("../traces/G1_Graphe" + file_name + "_result.txt", "w+", encoding="UTF-8")
+    file = open("../G1_traces/G1_Graphe" + file_name + "_result.txt", "w+", encoding="UTF-8")
 
     file.write("\n                                       -----------------------------------------------\n")
     file.write("                                       |           Caractéristiques du graphe        |\n")
@@ -211,12 +211,12 @@ def write_graph_trace(Graph, file_name):
     # BELLMAN
     file.write("\n\n------------------------------ BELLMAN ------------------------------\n")
     distances, predecesseurs, interm_result = bellman(Graph, get_init_sommet(Graph.array_transitions))
-    file.write("********** Etapes intermediaires **********\n")
+    file.write("********** Etapes intermediaires **********\n\n")
     for line in interm_result:
         file.write(line + '\n')
 
 
-    file.write("********** Solution **********\n")
+    file.write("\n\n********** Solution **********\n\n")
     if distances is None:
         file.write("Il y a un circuit absorbant")
     else:

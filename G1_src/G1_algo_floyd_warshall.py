@@ -1,4 +1,5 @@
-from read_files import *
+from G1_read_files import *
+from G1_src.G1_class_graph import *
 
 
 def floyd_warshall(Graph):
@@ -23,20 +24,24 @@ def floyd_warshall(Graph):
     # print(array_path)
     # print(array_distance)
 
+
     """Remplissage de la matrice d'initialisation des distances avec les valeurs réelles et de la matrice des chemins 
     avec les valeurs réelles"""
-    for i in range(len(Graph.array_transitions)):
-        array_distance[Graph.array_transitions[i][0]][Graph.array_transitions[i][1]] = Graph.array_transitions[i][2]
-        array_path[Graph.array_transitions[i][0]][Graph.array_transitions[i][1]] = Graph.array_transitions[i][0]
     # Le chemin partant d'un point et retournant dans ce meme point vaut initialement 0
+
     for i in range(len(array_distance)):
         array_distance[i][i] = 0
         array_path[i][i] = -1
+
+    for i in range(len(Graph.array_transitions)):
+        array_distance[Graph.array_transitions[i][0]][Graph.array_transitions[i][1]] = Graph.array_transitions[i][2]
+        array_path[Graph.array_transitions[i][0]][Graph.array_transitions[i][1]] = Graph.array_transitions[i][0]
+
     # print('\n')
     # print(array_path)
     # print(array_distance)
     # print('\n')
-    interm_result.append("0 | distance : " + str(array_distance) + '\n' + "0 | predecesseur : " + str(array_path) + "\n")
+    interm_result.append("k = 0\n     distance : \n" + get_matrice_from_tab("          ",array_distance) + "\n     predecesseur : \n" + get_matrice_from_tab("          ", array_path) + "\n")
 
 
     """Ces boucles imbriquées vont nous permettre de tester les N^3 possibilités de chemins, avec 
@@ -44,17 +49,17 @@ def floyd_warshall(Graph):
     for intermediary in range(len(array_distance)):
         for begin in range(len(array_distance)):
             for final in range(len(array_distance)):
-                if (array_distance[begin][final] > array_distance[intermediary][final] + array_distance[begin][
-                    intermediary]):
-                    array_distance[begin][final] = array_distance[intermediary][final] + array_distance[begin][
-                        intermediary]
+                if array_distance[begin][final] > array_distance[begin][intermediary] + array_distance[intermediary][final]:
+                    array_distance[begin][final] = array_distance[intermediary][final] + array_distance[begin][intermediary]
                     array_path[begin][final] = array_path[intermediary][final]
 
             if array_distance[begin][begin] < 0:
-                interm_result.clear()
+                # interm_result.append("erreur : " + str(begin) + "\n     distance : \n" + get_matrice_from_tab("          ", array_distance) + "\n     predecesseur : \n" + get_matrice_from_tab("          ", array_path) + "\n")
                 interm_result.append("Cycle de poids négatif")
                 return None, None, interm_result
-        interm_result.append(str(intermediary) + " | distance : " + str(array_distance) + '\n' + str(intermediary) + " | predecesseur : " + str(array_path) + "\n")
+
+        interm_result.append("k = " + str(intermediary+1) + "\n     distance : \n" + get_matrice_from_tab("          ", array_distance) + "\n     predecesseur : \n" + get_matrice_from_tab("          ", array_path) + "\n")
+
 
     # print(array_distance)
     # print(array_path)
@@ -86,7 +91,7 @@ def display_array_graph(array_transitions):
 
         message_display_graph += str("       |        ")
         message_display_graph += str(array_transitions[i][2])
-        if (array_transitions[i][2] > 0):
+        if array_transitions[i][2] > 0:
             message_display_graph += str("      |")
         else:
             message_display_graph += str("     |")
@@ -172,6 +177,6 @@ def get_solution_floyd_warshall(array_path, array_diatance):
                 message_shortest_path += " à "
                 message_shortest_path += str(v) + " : "
                 message_shortest_path += display_smallest_path(array_path, i, v)
-                message_shortest_path += " (poids = " + str(array_diatance[v]) + ")"
+                message_shortest_path += " (poids = " + str(array_diatance[i][v]) + ")"
                 array_shortest_path.append(message_shortest_path)
     return array_shortest_path
